@@ -39,20 +39,71 @@ body {
 	backdrop-filter: blur(5px);
 	background-color: rgba(255 255 255/0.2);
 	padding: 50px;
-	border: 1px solid rgb(255, 255, 255, 0.2);
+	overflow: hidden;
 	border-radius: 15px;
-	box-shadow: 0px 5px 5px 5px rgb(0, 0, 0, 0.3);
+	box-shadow: inset 2px 2px 2px rgb(255, 255, 255, 0.2),
+		inset -2px -2px 2px rgb(0, 0, 0, 0.5);
 }
 
+.card__header {
+	grid-area: card__header;
+	height: auto;
+}
+
+#card__title {
+	font-family: "Noto Serif", "times", "serif";
+	grid-area: card__title;
+	font-size: 30px;
+	line-height: 1em;
+}
+#card__type {
+	grid-area: card__type;
+}
+
+.card__stats {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+	width: 100%;
+	border-radius: 15px;
+	padding-inline: 10px;
+	padding-block: 5px;
+	align-items: center;
+	box-shadow: inset -2px -2px 2px rgb(255, 255, 255, 0.2),
+		inset 2px 2px 2px rgb(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+#card__mana {
+	font-family: "Noto Serif", "times", "serif";
+	grid-area: card__mana;
+}
+#card__angdef {
+	font-family: "Noto Serif", "times", "serif";
+	grid-area: "card__angdef";
+}
+.card__symbols {
+	width: var(--line-heigt);
+	margin-inline: 2.5px;
+	height: auto;
+}
+.symbol__container {
+	align-items: center;
+	vertical-align: middle;
+}
+#card__set {
+	height: var(--line-heigt);
+	width: auto;
+	margin-inline: 2.5px;
+	text-align: end;
+}
+.invisible {
+	display: none;
+}
 #card__image {
 	grid-area: card__image;
 	width: 300px;
 	height: auto;
 	border-radius: 15px;
-}
-.card__header {
-	grid-area: card__header;
-	height: auto;
 }
 .card__text {
 	grid-area: card__text;
@@ -64,32 +115,26 @@ body {
 	font-style: italic;
 	font-family: "Noto Serif";
 }
-#card__title {
-	font-family: "Noto Serif", "times", "serif";
-	grid-area: card__title;
-	font-size: 30px;
-	line-height: 1em;
-}
-#card__mana {
-	font-family: "Noto Serif", "times", "serif";
-	grid-area: card__mana;
-}
-#card__angdef {
-	font-family: "Noto Serif", "times", "serif";
-	grid-area: "card__angdef";
-}
-#card__type {
-	grid-area: card__type;
-}
-.card__symbols {
-	width: var(--line-heigt);
-	margin-inline: 2.5px;
-	height: auto;
-}
-.symbol__container {
-	align-items: center;
-	vertical-align: middle;
-}
 
-.button {
+@keyframes fade-out-and-in {
+	0% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	51% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.animation__fade-out-and-in {
+	animation: fade-out-and-in 0.5s ease-in 0s 1 normal forwards;
 }

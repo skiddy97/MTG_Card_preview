@@ -10,7 +10,9 @@ var cardMana = $("#card__mana");
 var cardRarity = $("#card__rarity");
 var cardAngDef = $("#card__angdef");
 var cardText = $("#card__text");
+var cardStats = $(".card__stats");
 let cardSymbols;
+let setSymbols;
 
 async function fetchCard() {
 	fetch("https://api.scryfall.com/cards/random")
@@ -18,6 +20,7 @@ async function fetchCard() {
 		.then((data) => displayCard(data));
 }
 function displayCard(data) {
+	cardStats.removeClass("invisible");
 	createCardImage(data);
 	createCardTitle(data);
 	createCardEffect(data);
@@ -54,7 +57,7 @@ function createCardAngDef(data) {
 }
 
 function createCardSet(data) {
-	cardSet.attr("src", data.set_uri);
+	cardSet.attr("src", replaceSetSymbol(data.set));
 }
 
 function createCardEffect(data) {
@@ -66,8 +69,7 @@ function createCardFlavorText(data) {
 }
 
 var reload = document.getElementById("fetchCard");
-console.log(reload);
-reload.addEventListener("click", fetchCard);
+
 async function fetchCardSymbol() {
 	fetch("https://api.scryfall.com/symbology ")
 		.then((response) => response.json())
@@ -76,9 +78,10 @@ async function fetchCardSymbol() {
 			return (cardSymbols = data);
 		});
 }
-function replaceSymbol(data) {}
 
+fetchCard();
 fetchCardSymbol();
+fetchSetSymbol();
 
 function replaceBrackets(string) {
 	cardSymbols.forEach((element) => {
@@ -91,3 +94,30 @@ function replaceBrackets(string) {
 	});
 	return string;
 }
+async function fetchSetSymbol() {
+	fetch("https://api.scryfall.com/sets")
+		.then((response) => response.json())
+		.then((object) => object.data)
+		.then((data) => {
+			return (setSymbols = data);
+		});
+}
+
+function replaceSetSymbol(set) {
+	setSymbols.forEach((element) => {
+		if (set === element.code) {
+			set = element.icon_svg_uri;
+			return;
+		}
+	});
+	return set;
+}
+async function reloadAnimation() {
+	cardImage.addClass("animation__fade-out-and-in");
+	await fetchCard();
+
+	setTimeout(() => {
+		cardImage.removeClass("animation__fade-out-and-in");
+	}, 1000);
+}
+reload.addEventListener("click", reloadAnimation);
