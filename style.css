@@ -4,8 +4,7 @@ html {
 	box-sizing: border-box;
 	margin: 0;
 }
-html {
-}
+
 body {
 	background-image: url("/background.webp");
 	background-size: 120%;
@@ -33,9 +32,10 @@ body {
 	display: grid;
 
 	gap: 0px 50px;
+	grid-template-columns: auto 1fr;
 	grid-template-areas:
-		"card__image card__header"
-		"card__image card__text";
+		"card__image card__info"
+		"card__image card__info";
 	backdrop-filter: blur(5px);
 	background-color: rgba(255 255 255/0.2);
 	padding: 50px;
@@ -45,33 +45,47 @@ body {
 		inset -2px -2px 2px rgb(0, 0, 0, 0.5);
 }
 
+.card__info {
+	display: grid;
+	grid-template-areas:
+		"card__header"
+		"card__text";
+	grid-template-columns: 1fr auto;
+}
 .card__header {
 	grid-area: card__header;
 	height: auto;
+	display: grid;
 }
 
 #card__title {
 	font-family: "Noto Serif", "times", "serif";
 	grid-area: card__title;
-	font-size: 30px;
+
 	line-height: 1em;
+}
+.title-small {
+	font-size: 25px;
+}
+.title-large {
+	font-size: 30px;
 }
 #card__type {
 	grid-area: card__type;
 }
 
 .card__stats {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
 	margin-top: 10px;
 	width: 100%;
 	border-radius: 15px;
 	padding-inline: 10px;
 	padding-block: 5px;
-	align-items: center;
 	box-shadow: inset -2px -2px 2px rgb(255, 255, 255, 0.2),
 		inset 2px 2px 2px rgb(0, 0, 0, 0.2);
 	overflow: hidden;
+	grid-template-areas: "card__mana card__angdef card__symbol";
 }
 #card__mana {
 	font-family: "Noto Serif", "times", "serif";
@@ -79,22 +93,26 @@ body {
 }
 #card__angdef {
 	font-family: "Noto Serif", "times", "serif";
-	grid-area: "card__angdef";
-}
-.card__symbols {
-	width: var(--line-heigt);
-	margin-inline: 2.5px;
-	height: auto;
+	grid-area: card__angdef;
+	justify-self: center;
 }
 .symbol__container {
 	align-items: center;
 	vertical-align: middle;
+	justify-self: start;
+}
+.card__symbol {
+	width: var(--line-heigt);
+	margin-inline: 2.5px;
+	height: auto;
+	grid-area: card__symbol;
 }
 #card__set {
 	height: var(--line-heigt);
 	width: auto;
 	margin-inline: 2.5px;
-	text-align: end;
+	align-self: center;
+	justify-self: end;
 }
 .invisible {
 	display: none;
@@ -107,26 +125,28 @@ body {
 }
 .card__text {
 	grid-area: card__text;
+	width: 100%;
 }
-#card__effect {
-}
+
 #card__flavor {
 	margin-top: 20px;
 	font-style: italic;
 	font-family: "Noto Serif";
 }
 
-@keyframes fade-out-and-in {
+@keyframes fade-out {
 	0% {
 		opacity: 1;
 		transform: translateY(0);
 	}
 
-	50% {
+	100% {
 		opacity: 0;
 		transform: translateY(-100%);
 	}
-	51% {
+}
+@keyframes fade-in {
+	0% {
 		opacity: 0;
 		transform: translateY(100%);
 	}
@@ -135,6 +155,9 @@ body {
 		transform: translateY(0);
 	}
 }
-.animation__fade-out-and-in {
-	animation: fade-out-and-in 0.5s ease-in 0s 1 normal forwards;
+.animation__fade-out {
+	animation: fade-out 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-in {
+	animation: fade-in 0.4s ease-in 0s 1 normal forwards;
 }

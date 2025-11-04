@@ -21,6 +21,7 @@ async function fetchCard() {
 }
 function displayCard(data) {
 	cardStats.removeClass("invisible");
+
 	createCardImage(data);
 	createCardTitle(data);
 	createCardEffect(data);
@@ -29,7 +30,6 @@ function displayCard(data) {
 	createCardType(data);
 	createCardAngDef(data);
 	createCardSet(data);
-	createCardRarity(data);
 }
 
 function createCardImage(data) {
@@ -38,6 +38,7 @@ function createCardImage(data) {
 
 function createCardTitle(data) {
 	cardTitle.text(data.name);
+	adjustFontSize(cardTitle);
 }
 
 function createCardMana(data) {
@@ -45,6 +46,7 @@ function createCardMana(data) {
 }
 
 function createCardType(data) {
+	clearText(cardType);
 	cardType.text(data.type_line);
 }
 
@@ -61,10 +63,12 @@ function createCardSet(data) {
 }
 
 function createCardEffect(data) {
+	clearText(cardEffect);
 	cardEffect.html(replaceBrackets(data.oracle_text));
 }
 
 function createCardFlavorText(data) {
+	clearText(cardFlavor);
 	cardFlavor.text(data.flavor_text);
 }
 
@@ -87,11 +91,12 @@ function replaceBrackets(string) {
 	cardSymbols.forEach((element) => {
 		string = string.replaceAll(
 			element.symbol,
-			'<span class="symbol__container"><img class="card__symbols"src="' +
+			'<span class="symbol__container"><img class="card__symbol"src="' +
 				element.svg_uri +
 				'"></span>'
 		);
 	});
+	string = string.replaceAll(/\n/g, "<br>");
 	return string;
 }
 async function fetchSetSymbol() {
@@ -113,11 +118,26 @@ function replaceSetSymbol(set) {
 	return set;
 }
 async function reloadAnimation() {
-	cardImage.addClass("animation__fade-out-and-in");
-	await fetchCard();
-
+	cardImage.removeClass("animation__fade-in");
+	cardImage.addClass("animation__fade-out");
+	fetchCard();
 	setTimeout(() => {
-		cardImage.removeClass("animation__fade-out-and-in");
+		cardImage.removeClass("animation__fade-out");
+		cardImage.addClass("animation__fade-in");
 	}, 1000);
 }
+
+function clearText(element) {
+	element = element.html("").text("");
+}
+function adjustFontSize(element) {
+	element.removeClass("title-small");
+	element.removeClass("title-large");
+	if (cardTitle.text().length > 15) {
+		cardTitle.addClass("title-small");
+	} else {
+		cardTitle.addClass("title-large");
+	}
+}
+
 reload.addEventListener("click", reloadAnimation);
