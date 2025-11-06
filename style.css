@@ -47,15 +47,20 @@ body {
 
 .card__info {
 	display: grid;
+	height: 100%;
 	grid-template-areas:
 		"card__header"
 		"card__text";
-	grid-template-columns: 1fr auto;
+	grid-template-rows: 0.2fr auto;
+	gap: 50px;
+	grid-area: card__info;
 }
 .card__header {
 	grid-area: card__header;
 	height: auto;
 	display: grid;
+
+	grid-template-rows: 1fr 1fr;
 }
 
 #card__title {
@@ -79,6 +84,8 @@ body {
 	grid-template-columns: 1fr 1fr 1fr;
 	margin-top: 10px;
 	width: 100%;
+	min-height: 35px;
+	height: min-content;
 	border-radius: 15px;
 	padding-inline: 10px;
 	padding-block: 5px;
@@ -90,6 +97,7 @@ body {
 #card__mana {
 	font-family: "Noto Serif", "times", "serif";
 	grid-area: card__mana;
+	height: min-content;
 }
 #card__angdef {
 	font-family: "Noto Serif", "times", "serif";
@@ -100,12 +108,14 @@ body {
 	align-items: center;
 	vertical-align: middle;
 	justify-self: start;
+	height: auto;
 }
 .card__symbol {
 	width: var(--line-heigt);
 	margin-inline: 2.5px;
 	height: auto;
 	grid-area: card__symbol;
+	align-self: center;
 }
 #card__set {
 	height: var(--line-heigt);
@@ -122,10 +132,12 @@ body {
 	width: 300px;
 	height: auto;
 	border-radius: 15px;
+	z-index: 10;
 }
 .card__text {
 	grid-area: card__text;
 	width: 100%;
+	align-self: start;
 }
 
 #card__flavor {
@@ -134,7 +146,7 @@ body {
 	font-family: "Noto Serif";
 }
 
-@keyframes fade-out {
+@keyframes fade-out-top {
 	0% {
 		opacity: 1;
 		transform: translateY(0);
@@ -145,7 +157,7 @@ body {
 		transform: translateY(-100%);
 	}
 }
-@keyframes fade-in {
+@keyframes fade-in-top {
 	0% {
 		opacity: 0;
 		transform: translateY(100%);
@@ -155,9 +167,90 @@ body {
 		transform: translateY(0);
 	}
 }
-.animation__fade-out {
-	animation: fade-out 0.4s ease-in 0s 1 normal forwards;
+@keyframes fade-out-right {
+	0% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(100%);
+	}
 }
-.animation__fade-in {
-	animation: fade-in 0.4s ease-in 0s 1 normal forwards;
+@keyframes fade-in-right {
+	0% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes fade-out-left {
+	0% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+}
+@keyframes fade-in-left {
+	0% {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes fade-out-bottom {
+	0% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+}
+@keyframes fade-in-bottom {
+	0% {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.animation__fade-out-top {
+	animation: fade-out-top 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-in-top {
+	animation: fade-in-top 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-out-right {
+	animation: fade-out-right 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-in-right {
+	animation: fade-in-right 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-out-left {
+	animation: fade-out-left 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-in-left {
+	animation: fade-in-left 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-out-bottom {
+	animation: fade-out-bottom 0.4s ease-in 0s 1 normal forwards;
+}
+.animation__fade-in-bottom {
+	animation: fade-in-bottom 0.4s ease-in 0s 1 normal forwards;
 }

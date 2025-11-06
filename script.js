@@ -1,6 +1,8 @@
+var reload = document.getElementById("button__refresh-card");
 var section = $(".main__section");
 var cardImage = $("#card__image");
 var cardHeader = $(".card__header");
+var cardTitleContainer = $(".card__title-container");
 var cardTitle = $("#card__title");
 var cardEffect = $("#card__effect");
 var cardFlavor = $("#card__flavor");
@@ -11,69 +13,16 @@ var cardRarity = $("#card__rarity");
 var cardAngDef = $("#card__angdef");
 var cardText = $("#card__text");
 var cardStats = $(".card__stats");
+var cardInfo = $(".card__info");
 let cardSymbols;
 let setSymbols;
 
+// fetching data
 async function fetchCard() {
 	fetch("https://api.scryfall.com/cards/random")
 		.then((response) => response.json())
 		.then((data) => displayCard(data));
 }
-function displayCard(data) {
-	cardStats.removeClass("invisible");
-
-	createCardImage(data);
-	createCardTitle(data);
-	createCardEffect(data);
-	createCardFlavorText(data);
-	createCardMana(data);
-	createCardType(data);
-	createCardAngDef(data);
-	createCardSet(data);
-}
-
-function createCardImage(data) {
-	cardImage.attr("src", data.image_uris.normal);
-}
-
-function createCardTitle(data) {
-	cardTitle.text(data.name);
-	adjustFontSize(cardTitle);
-}
-
-function createCardMana(data) {
-	cardMana.html(replaceBrackets(data.mana_cost));
-}
-
-function createCardType(data) {
-	clearText(cardType);
-	cardType.text(data.type_line);
-}
-
-function createCardAngDef(data) {
-	if (data.power !== undefined && data.power !== undefined) {
-		cardAngDef.text(`( ${data.power} / ${data.toughness} )`);
-	} else {
-		cardAngDef.text("");
-	}
-}
-
-function createCardSet(data) {
-	cardSet.attr("src", replaceSetSymbol(data.set));
-}
-
-function createCardEffect(data) {
-	clearText(cardEffect);
-	cardEffect.html(replaceBrackets(data.oracle_text));
-}
-
-function createCardFlavorText(data) {
-	clearText(cardFlavor);
-	cardFlavor.text(data.flavor_text);
-}
-
-var reload = document.getElementById("fetchCard");
-
 async function fetchCardSymbol() {
 	fetch("https://api.scryfall.com/symbology ")
 		.then((response) => response.json())
@@ -82,10 +31,55 @@ async function fetchCardSymbol() {
 			return (cardSymbols = data);
 		});
 }
+async function fetchSetSymbol() {
+	fetch("https://api.scryfall.com/sets")
+		.then((response) => response.json())
+		.then((object) => object.data)
+		.then((data) => {
+			return (setSymbols = data);
+		});
+}
 
-fetchCard();
-fetchCardSymbol();
-fetchSetSymbol();
+// assignment of fetched data
+function assignCardImage(data) {
+	cardImage.attr("src", data.image_uris.normal);
+}
+
+function assignCardTitle(data) {
+	cardTitle.text(data.name);
+	adjustFontSize(cardTitle);
+}
+
+function assignCardMana(data) {
+	cardMana.html(replaceBrackets(data.mana_cost));
+}
+
+function assignCardType(data) {
+	clearText(cardType);
+	cardType.text(data.type_line);
+}
+
+function assignCardAngDef(data) {
+	if (data.power !== undefined && data.power !== undefined) {
+		cardAngDef.text(`( ${data.power} / ${data.toughness} )`);
+	} else {
+		cardAngDef.text("");
+	}
+}
+
+function assignCardSet(data) {
+	cardSet.attr("src", replaceSetSymbol(data.set));
+}
+
+function assignCardEffect(data) {
+	clearText(cardEffect);
+	cardEffect.html(replaceBrackets(data.oracle_text));
+}
+
+function assignCardFlavorText(data) {
+	clearText(cardFlavor);
+	cardFlavor.text(data.flavor_text);
+}
 
 function replaceBrackets(string) {
 	cardSymbols.forEach((element) => {
@@ -99,14 +93,6 @@ function replaceBrackets(string) {
 	string = string.replaceAll(/\n/g, "<br>");
 	return string;
 }
-async function fetchSetSymbol() {
-	fetch("https://api.scryfall.com/sets")
-		.then((response) => response.json())
-		.then((object) => object.data)
-		.then((data) => {
-			return (setSymbols = data);
-		});
-}
 
 function replaceSetSymbol(set) {
 	setSymbols.forEach((element) => {
@@ -117,14 +103,19 @@ function replaceSetSymbol(set) {
 	});
 	return set;
 }
-async function reloadAnimation() {
-	cardImage.removeClass("animation__fade-in");
-	cardImage.addClass("animation__fade-out");
-	fetchCard();
-	setTimeout(() => {
-		cardImage.removeClass("animation__fade-out");
-		cardImage.addClass("animation__fade-in");
-	}, 1000);
+
+// displaying card and information
+function displayCard(data) {
+	cardStats.removeClass("invisible");
+
+	assignCardImage(data);
+	assignCardTitle(data);
+	assignCardEffect(data);
+	assignCardFlavorText(data);
+	assignCardMana(data);
+	assignCardType(data);
+	assignCardAngDef(data);
+	assignCardSet(data);
 }
 
 function clearText(element) {
@@ -139,5 +130,74 @@ function adjustFontSize(element) {
 		cardTitle.addClass("title-large");
 	}
 }
+// refresh animation
 
-reload.addEventListener("click", reloadAnimation);
+async function refreshCardAnimation() {
+	cardVanish;
+	textVanish;
+	fetchCard();
+	setTimeout(() => {
+		cardImage.removeClass("animation__fade-out");
+		cardImage.addClass("animation__fade-in");
+	}, 1000);
+}
+
+function animationVanish(element) {
+	element.removeClass("animation__fade-in-right");
+	element.addClass("animation__fade-out-right");
+}
+function animationAppear(element) {
+	element.removeClass("animation__fade-out-right");
+	element.addClass("animation__fade-in-right");
+}
+function textVanish() {
+	animationVanish(cardTitleContainer);
+	setTimeout(() => {
+		animationVanish(cardStats);
+	}, 100);
+	setTimeout(() => {
+		animationVanish(cardEffect);
+	}, 200);
+	setTimeout(() => {
+		animationVanish(cardFlavor);
+	}, 300);
+}
+
+function textAppear() {
+	animationAppear(cardTitleContainer);
+	setTimeout(() => {
+		animationAppear(cardStats);
+	}, 100);
+	setTimeout(() => {
+		animationAppear(cardEffect);
+	}, 200);
+	setTimeout(() => {
+		animationAppear(cardFlavor);
+	}, 300);
+}
+
+function cardVanish() {
+	cardImage.removeClass("animation__fade-in-top");
+	cardImage.addClass("animation__fade-out-top");
+}
+function cardAppear() {
+	cardImage.addClass("animation__fade-in-top");
+	cardImage.removeClass("animation__fade-out-top");
+}
+function cardLoad() {
+	cardVanish();
+	textVanish();
+	fetchCard();
+	setTimeout(() => {
+		cardAppear();
+		setTimeout(() => {
+			textAppear();
+		}, 300);
+	}, 1000);
+}
+
+fetchCard();
+fetchCardSymbol();
+fetchSetSymbol();
+
+reload.addEventListener("click", cardLoad);
