@@ -6,7 +6,8 @@ html {
 }
 
 body {
-	background-image: url("/background.webp");
+	background-image: url("/background_02.webp");
+
 	background-size: 120%;
 }
 
@@ -16,7 +17,7 @@ body {
 	background: radial-gradient(
 		circle,
 		rgba(255, 255, 255, 0) 0%,
-		rgba(255, 255, 255, 0.01) 88%,
+		rgba(255, 255, 255, 0.01) 20%,
 		rgba(0, 0, 0, 1) 100%
 	);
 	display: flex;
@@ -37,7 +38,7 @@ body {
 		"card__image card__info"
 		"card__image card__info";
 	backdrop-filter: blur(5px);
-	background-color: rgba(255 255 255/0.2);
+	background-color: rgba(255 255 255/0.3);
 	padding: 50px;
 	overflow: hidden;
 	border-radius: 15px;
@@ -157,16 +158,7 @@ body {
 		transform: translateY(-100%);
 	}
 }
-@keyframes fade-in-top {
-	0% {
-		opacity: 0;
-		transform: translateY(100%);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+
 @keyframes fade-out-right {
 	0% {
 		opacity: 1;
@@ -178,79 +170,44 @@ body {
 		transform: translateX(100%);
 	}
 }
-@keyframes fade-in-right {
-	0% {
-		opacity: 0;
-		transform: translateX(-100%);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-@keyframes fade-out-left {
-	0% {
-		opacity: 1;
-		transform: translateX(0);
-	}
 
-	100% {
-		opacity: 0;
-		transform: translateX(-100%);
-	}
-}
-@keyframes fade-in-left {
-	0% {
-		opacity: 0;
-		transform: translateX(100%);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-@keyframes fade-out-bottom {
-	0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	100% {
-		opacity: 0;
-		transform: translateY(100%);
-	}
-}
-@keyframes fade-in-bottom {
-	0% {
-		opacity: 0;
-		transform: translateY(-100%);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
 .animation__fade-out-top {
-	animation: fade-out-top 0.4s ease-in 0s 1 normal forwards;
+	animation: fade-out-top 0.3s ease-out 0s 1 normal forwards;
+}
+
+.animation__fade-out-right {
+	animation: fade-out-right 0.3s ease-out 0s 1 normal forwards;
 }
 .animation__fade-in-top {
-	animation: fade-in-top 0.4s ease-in 0s 1 normal forwards;
+	animation: fade-out-top 0.3s ease-out 0s 1 reverse forwards;
 }
-.animation__fade-out-right {
-	animation: fade-out-right 0.4s ease-in 0s 1 normal forwards;
-}
+
 .animation__fade-in-right {
-	animation: fade-in-right 0.4s ease-in 0s 1 normal forwards;
+	animation: fade-out-right 0.3s ease-out 0s 1 reverse forwards;
 }
-.animation__fade-out-left {
-	animation: fade-out-left 0.4s ease-in 0s 1 normal forwards;
+
+#button__refresh-card {
+	width: 300px;
+	height: 3em;
+	position: relative;
+	border-radius: 0;
+	border: 4px ridge rgb(216, 175, 98);
+	font-family: helvetica;
+	font-weight: 900;
+	font-size: 1rem;
+	color: rgb(216, 175, 98);
+
+	background-color: #b92e34;
+	background-image: linear-gradient(326deg, #b92e34 0%, #3d0c02 74%);
+	box-shadow: inset 4px 4px 2px rgb(255, 255, 255, 0.2),
+		inset -4px -4px 2px rgb(0, 0, 0, 0.2);
+	text-shadow: 1px 1px 0px rgb(255, 255, 255, 0.3),
+		-1px -1px 0px rgb(0, 0, 0, 0.3);
 }
-.animation__fade-in-left {
-	animation: fade-in-left 0.4s ease-in 0s 1 normal forwards;
-}
-.animation__fade-out-bottom {
-	animation: fade-out-bottom 0.4s ease-in 0s 1 normal forwards;
-}
-.animation__fade-in-bottom {
-	animation: fade-in-bottom 0.4s ease-in 0s 1 normal forwards;
+
+#button__refresh-card:active {
+	box-shadow: inset -2px -2px 2px rgb(255, 255, 255, 0.2),
+		inset 2px 2px 2px rgb(0, 0, 0, 0.2);
+	text-shadow: -1px -1px 0px rgb(255, 255, 255, 0.3),
+		1px 1px 0px rgb(0, 0, 0, 0.3);
 }

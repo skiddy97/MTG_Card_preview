@@ -16,6 +16,10 @@ var cardStats = $(".card__stats");
 var cardInfo = $(".card__info");
 let cardSymbols;
 let setSymbols;
+//
+//fetchCard();
+fetchCardSymbol();
+fetchSetSymbol();
 
 // fetching data
 async function fetchCard() {
@@ -48,6 +52,8 @@ function assignCardImage(data) {
 function assignCardTitle(data) {
 	cardTitle.text(data.name);
 	adjustFontSize(cardTitle);
+
+	animationAppear(cardTitle, "animation__fade-in-top");
 }
 
 function assignCardMana(data) {
@@ -105,9 +111,8 @@ function replaceSetSymbol(set) {
 }
 
 // displaying card and information
-function displayCard(data) {
+async function displayCard(data) {
 	cardStats.removeClass("invisible");
-
 	assignCardImage(data);
 	assignCardTitle(data);
 	assignCardEffect(data);
@@ -116,6 +121,7 @@ function displayCard(data) {
 	assignCardType(data);
 	assignCardAngDef(data);
 	assignCardSet(data);
+	clearClasses(cardTitle);
 }
 
 function clearText(element) {
@@ -132,72 +138,37 @@ function adjustFontSize(element) {
 }
 // refresh animation
 
-async function refreshCardAnimation() {
-	cardVanish;
-	textVanish;
+function animationVanish(element, className) {
+	return new Promise((resolve) => {
+		element.addClass(className);
+		element.one("animationend", () => {
+			resolve();
+		});
+	});
+}
+function animationAppear(element, className) {
+	return new Promise((resolve) => {
+		element.addClass(className);
+		element.one("animationend", () => {
+			resolve();
+		});
+	});
+}
+
+async function clearClasses(...elements) {
+	return new Promise((resolve) => {
+		elements.forEach((element) => {
+			element.removeClass("animation__fade-out-top");
+			element.removeClass("animation__fade-out-right");
+			element.removeClass("animation__fade-in-top");
+			element.removeClass("animation__fade-in-right");
+			resolve();
+		});
+	});
+}
+
+async function cardLoad() {
 	fetchCard();
-	setTimeout(() => {
-		cardImage.removeClass("animation__fade-out");
-		cardImage.addClass("animation__fade-in");
-	}, 1000);
 }
-
-function animationVanish(element) {
-	element.removeClass("animation__fade-in-right");
-	element.addClass("animation__fade-out-right");
-}
-function animationAppear(element) {
-	element.removeClass("animation__fade-out-right");
-	element.addClass("animation__fade-in-right");
-}
-function textVanish() {
-	animationVanish(cardTitleContainer);
-	setTimeout(() => {
-		animationVanish(cardStats);
-	}, 100);
-	setTimeout(() => {
-		animationVanish(cardEffect);
-	}, 200);
-	setTimeout(() => {
-		animationVanish(cardFlavor);
-	}, 300);
-}
-
-function textAppear() {
-	animationAppear(cardTitleContainer);
-	setTimeout(() => {
-		animationAppear(cardStats);
-	}, 100);
-	setTimeout(() => {
-		animationAppear(cardEffect);
-	}, 200);
-	setTimeout(() => {
-		animationAppear(cardFlavor);
-	}, 300);
-}
-
-function cardVanish() {
-	cardImage.removeClass("animation__fade-in-top");
-	cardImage.addClass("animation__fade-out-top");
-}
-function cardAppear() {
-	cardImage.addClass("animation__fade-in-top");
-	cardImage.removeClass("animation__fade-out-top");
-}
-function cardLoad() {
-	cardVanish();
-	textVanish();
-	fetchCard();
-	setTimeout(() => {
-		cardAppear();
-		setTimeout(() => {
-			textAppear();
-		}, 300);
-	}, 1000);
-}
-
-fetchCard();
-fetchCardSymbol();
-fetchSetSymbol();
 
 reload.addEventListener("click", cardLoad);
