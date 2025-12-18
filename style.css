@@ -6,7 +6,7 @@ html {
 }
 
 body {
-	background-image: url("/background_02.webp");
+	background-image: url("./background_02.webp");
 
 	background-size: 120%;
 }
