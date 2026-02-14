@@ -10,10 +10,61 @@
 			href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
 			rel="stylesheet"
 		/>
+
 		<title>Document</title>
 	</head>
 
 	<body>
+		<div id="modal__background">
+			<div class="modal">
+				<button id="button__exit"></button>
+				<div class="login_register_switch">
+					<div class="login_switch switch">
+						<input type="radio" name="login_register" id="select_login" />
+
+						<label for="select_login">Einloggen</label>
+					</div>
+					<div class="register_switch switch">
+						<input type="radio" name="login_register" id="select_register" />
+						<label for="select_register">Registrieren</label>
+					</div>
+				</div>
+
+				<form action="" class="form_login form">
+					<h2 class="form__title">Login</h2>
+					<input type="text" placeholder="E-Mail" required /><br />
+					<input
+						type="password"
+						name="password"
+						id=""
+						placeholder="Passwort"
+						required
+					/><br />
+					<button type="submit">einloggen</button><br />
+					<a href="#">passwort vergessen?</a><br />
+				</form>
+
+				<form action="" class="form_register form">
+					<h2 class="form__title">Register</h2>
+					<input type="text" placeholder="E-Mail" required /><br />
+					<input
+						type="password"
+						name="password"
+						id=""
+						placeholder="Passwort"
+						required
+					/><br />
+					<input
+						type="password"
+						name="password"
+						id=""
+						placeholder="Passwort wiederholen"
+						required
+					/><br />
+					<button type="submit">registrieren</button><br />
+				</form>
+			</div>
+		</div>
 		<div class="page__wrapper">
 			<div class="main__section">
 				<img id="card__image" src="" alt="" />
@@ -39,6 +90,7 @@
 			<button id="button__refresh-card">Neue Karte</button>
 			<script src="jquery.js"></script>
 			<script src="script.js"></script>
+			<script src="login_register.js"></script>
 		</div>
 	</body>
 </html>
