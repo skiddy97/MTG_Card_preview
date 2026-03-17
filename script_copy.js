@@ -128,12 +128,11 @@ async function displayCard(currentCardData) {
 	assignCardAngDef(currentCardData);
 	assignCardSet(currentCardData);
 
-	checkIfFavorite(currentCardData);
+	sendToBackend(currentCardData);
 }
 
-// communication backend start
-async function checkIfFavorite(currentCardData) {
-	fetch("check_favorite.php", {
+async function sendToBackend(currentCardData) {
+	fetch("save_favorite.php", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json; charset=utf-8",
@@ -144,18 +143,6 @@ async function checkIfFavorite(currentCardData) {
 		.then((object) => object.data)
 		.then((data) => console.log(data));
 }
-
-function saveFavorite() {
-	fetch("save_favorite.php", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json; charset=utf-8",
-		},
-		body: JSON.stringify(currentCardData),
-	});
-}
-// communication backend end
-
 function clearText(element) {
 	element = element.html("").text("");
 }
@@ -168,11 +155,11 @@ function adjustFontSize(element) {
 		cardTitle.addClass("title-large");
 	}
 }
+// refresh animation
+
 async function cardLoad() {
 	fetchCard();
 	console.log(currentCardData);
 }
-
-window.addEventListener("load", cardLoad);
 
 reload.addEventListener("click", cardLoad);
